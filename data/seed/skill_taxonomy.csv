@@ -1,0 +1,92 @@
+skill_id,skill_name,category,subcategory,description,importance_level,is_active
+1,Python,Programming,Language,General purpose programming language,Core,Yes
+2,R,Programming,Language,Statistical programming language,Core,Yes
+3,Java,Programming,Language,Object oriented programming language,Important,Yes
+4,C++,Programming,Language,System programming language,Important,Yes
+5,JavaScript,Programming,Language,Web programming language,Optional,Yes
+6,SQL,Database,Query Language,Structured Query Language,Core,Yes
+7,MySQL,Database,Relational Database,Open-source relational database,Core,Yes
+8,PostgreSQL,Database,Relational Database,Advanced relational database,Important,Yes
+9,SQLite,Database,Embedded Database,Lightweight embedded SQL database,Core,Yes
+10,MongoDB,Database,NoSQL Database,Document-oriented database,Important,Yes
+11,Pandas,Data Analysis,Python Library,Data manipulation library,Core,Yes
+12,NumPy,Data Analysis,Python Library,Numerical computing library,Core,Yes
+13,OpenPyXL,Data Analysis,Excel Processing,Excel workbook processing,Important,Yes
+14,Polars,Data Analysis,Python Library,High performance dataframe library,Optional,Yes
+15,Dask,Data Analysis,Distributed Processing,Parallel dataframe processing,Optional,Yes
+16,Matplotlib,Visualization,Python Library,Scientific plotting library,Core,Yes
+17,Seaborn,Visualization,Python Library,Statistical visualization library,Core,Yes
+18,Plotly,Visualization,Interactive Visualization,Interactive charting library,Important,Yes
+19,Power BI,Visualization,Business Intelligence,Business analytics platform,Important,Yes
+20,Tableau,Visualization,Business Intelligence,Interactive dashboard platform,Important,Yes
+21,Scikit-learn,Machine Learning,ML Library,Machine learning algorithms library,Core,Yes
+22,Feature Engineering,Machine Learning,Data Preparation,Creating meaningful input features,Core,Yes
+23,Model Evaluation,Machine Learning,Evaluation,Evaluating ML model performance,Core,Yes
+24,Classification,Machine Learning,Supervised Learning,Classification algorithms,Core,Yes
+25,Regression,Machine Learning,Supervised Learning,Regression algorithms,Core,Yes
+26,Clustering,Machine Learning,Unsupervised Learning,Grouping similar observations,Important,Yes
+27,Dimensionality Reduction,Machine Learning,Data Reduction,Reducing feature dimensions,Important,Yes
+28,Hyperparameter Tuning,Machine Learning,Optimization,Optimizing ML model parameters,Important,Yes
+29,Cross Validation,Machine Learning,Validation,Model validation technique,Important,Yes
+30,Model Deployment,Machine Learning,Production,Deploying ML models,Optional,Yes
+31,TensorFlow,Deep Learning,Framework,Deep learning framework,Important,Yes
+32,PyTorch,Deep Learning,Framework,Deep learning framework,Important,Yes
+33,Neural Networks,Deep Learning,Concept,Artificial neural network models,Core,Yes
+34,CNN,Deep Learning,Computer Vision,Convolutional Neural Networks,Important,Yes
+35,RNN,Deep Learning,Sequence Models,Recurrent Neural Networks,Important,Yes
+36,LSTM,Deep Learning,Sequence Models,Long Short-Term Memory networks,Important,Yes
+37,Transfer Learning,Deep Learning,Model Reuse,Using pre-trained models,Important,Yes
+38,Computer Vision,Deep Learning,AI Domain,Image understanding techniques,Important,Yes
+39,Natural Language Processing,Deep Learning,AI Domain,Processing human language,Important,Yes
+40,Generative AI,Deep Learning,Foundation Models,Large Language Models and Generative AI,Important,Yes
+41,Apache Spark,Big Data,Processing,Distributed data processing framework,Important,Yes
+42,Hadoop,Big Data,Storage,Distributed storage framework,Important,Yes
+43,HDFS,Big Data,Distributed File System,Hadoop Distributed File System,Important,Yes
+44,Apache Hive,Big Data,SQL Engine,SQL querying over Hadoop,Optional,Yes
+45,Apache Kafka,Big Data,Streaming,Distributed event streaming platform,Important,Yes
+46,Apache Airflow,Big Data,Workflow,Workflow orchestration platform,Optional,Yes
+47,ETL Pipelines,Big Data,Data Engineering,Extract Transform Load pipelines,Core,Yes
+48,Data Warehousing,Big Data,Storage,Analytical data warehouse concepts,Important,Yes
+49,Data Lakes,Big Data,Storage,Centralized storage for structured and unstructured data,Important,Yes
+50,Apache Parquet,Big Data,Storage Format,Columnar storage format,Optional,Yes
+51,AWS,Cloud,Cloud Platform,Amazon Web Services,Important,Yes
+52,Microsoft Azure,Cloud,Cloud Platform,Microsoft Azure Cloud,Important,Yes
+53,Google Cloud Platform,Cloud,Cloud Platform,Google Cloud Platform,Important,Yes
+54,Amazon S3,Cloud,Storage,Cloud object storage,Optional,Yes
+55,Amazon RDS,Cloud,Database,Managed relational database service,Optional,Yes
+56,AWS Glue,Cloud,ETL,Managed ETL service,Optional,Yes
+57,Amazon Athena,Cloud,Analytics,Interactive query service,Optional,Yes
+58,Amazon EMR,Cloud,Big Data,Managed Hadoop and Spark service,Optional,Yes
+59,Virtual Private Cloud,Cloud,Networking,Cloud networking service,Optional,Yes
+60,IAM,Cloud,Security,Identity and Access Management,Optional,Yes
+61,Statistics,Mathematics,Statistics,Fundamentals of statistics,Core,Yes
+62,Probability,Mathematics,Statistics,Probability concepts,Core,Yes
+63,Linear Algebra,Mathematics,Mathematics,Matrices and vectors,Important,Yes
+64,Calculus,Mathematics,Mathematics,Differentiation and Integration,Important,Yes
+65,Optimization,Mathematics,Optimization,Optimization techniques,Important,Yes
+66,Hypothesis Testing,Statistics,Inference,Statistical hypothesis testing,Important,Yes
+67,A/B Testing,Statistics,Experimentation,Controlled experiments,Important,Yes
+68,EDA,Data Science,Analysis,Exploratory Data Analysis,Core,Yes
+69,Data Cleaning,Data Science,Preprocessing,Cleaning and preparing datasets,Core,Yes
+70,Data Preprocessing,Data Science,Preprocessing,Preparing data for analysis,Core,Yes
+71,Git,Version Control,Version Control,Distributed version control,Core,Yes
+72,GitHub,Version Control,Repository,Code hosting platform,Core,Yes
+73,Docker,Deployment,Containerization,Container platform,Important,Yes
+74,REST API,Deployment,API,RESTful APIs,Important,Yes
+75,FastAPI,Deployment,API Framework,Modern Python API framework,Important,Yes
+76,Streamlit,Deployment,Dashboard,Python dashboard framework,Core,Yes
+77,Linux,Operating System,OS,Linux operating system,Important,Yes
+78,Shell Scripting,Operating System,Automation,Linux shell scripting,Optional,Yes
+79,CI/CD,Deployment,Automation,Continuous Integration and Deployment,Optional,Yes
+80,MLflow,MLOps,Experiment Tracking,Machine learning lifecycle management,Optional,Yes
+81,Problem Solving,Professional Skills,Thinking,Analytical problem solving,Core,Yes
+82,Critical Thinking,Professional Skills,Thinking,Logical decision making,Core,Yes
+83,Communication,Professional Skills,Soft Skill,Professional communication,Important,Yes
+84,Presentation Skills,Professional Skills,Soft Skill,Presenting technical work,Important,Yes
+85,Business Understanding,Professional Skills,Domain,Understanding business problems,Core,Yes
+86,Documentation,Professional Skills,Writing,Technical documentation,Important,Yes
+87,Requirement Analysis,Professional Skills,Analysis,Understanding project requirements,Important,Yes
+88,Time Management,Professional Skills,Management,Managing learning and work,Important,Yes
+89,Decision Making,Professional Skills,Thinking,Evidence-based decision making,Core,Yes
+90,Research Skills,Professional Skills,Research,Finding and evaluating information,Core,Yes
+91,Networking,Infrastructure,Computer Networks,Networking fundamentals and protocols,Important,Yes
