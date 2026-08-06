@@ -1,5 +1,11 @@
 import pandas as pd
 
+import sqlite3
+
+from src.exceptions.database_exceptions import (
+    DatabaseImportError,
+)
+
 from config.logging_config import get_logger
 from config.settings import (
     SEED_DIR,
@@ -46,12 +52,17 @@ class DatabaseLoader:
         logger.info(f"{len(df)} skills imported successfully.")
 
     def import_all(self):
-        logger.info("Starting database import process...")
+        try:
+            logger.info("Starting database import process...")
 
-        self.import_roles()
-        self.import_skill_taxonomy()
+            self.import_roles()
+            self.import_skill_taxonomy()
 
-        logger.info("Database seeded successfully.")
+            logger.info("Database seeded successfully.")
+
+        except sqlite3.Error as e:
+            logger.exception("Database import failed.")
+            raise DatabaseImportError(str(e))
 
 
 if __name__ == "__main__":

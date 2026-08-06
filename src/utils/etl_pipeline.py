@@ -3,6 +3,7 @@ import pandas as pd
 
 from config.logging_config import get_logger
 
+from src.exceptions.pipeline_exceptions import ETLError
 from src.utils.validators import DatasetValidator
 from src.utils.data_preprocessor import DataPreprocessor
 
@@ -61,9 +62,14 @@ class ETLPipeline:
     def run(self):
         logger.info("ETL Pipeline Started.")
 
-        dataframe = self.extract()
-        dataframe = self.validate(dataframe)
-        dataframe = self.transform(dataframe)
-        self.load(dataframe)
+        try:
+            dataframe = self.extract()
+            dataframe = self.validate(dataframe)
+            dataframe = self.transform(dataframe)
+            self.load(dataframe)
 
-        logger.info("ETL Pipeline Finished Successfully.")
+            logger.info("ETL Pipeline Finished Successfully.")
+
+        except Exception as e:
+            logger.exception("ETL Pipeline Failed.")
+            raise ETLError(str(e)) from e

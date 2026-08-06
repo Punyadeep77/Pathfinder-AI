@@ -1,12 +1,21 @@
 import sqlite3
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
-DATABASE_PATH = BASE_DIR / "data" / "database" / "pathfinder.db"
+from config.logging_config import get_logger
+from config.settings import DATABASE_PATH
+
+from src.exceptions.database_exceptions import DatabaseError
+
+logger = get_logger(__name__)
 
 def create_database():
+    """
+    Creates all Pathfinder database tables.
+    """
+    logger.info("Creating database schema...")
+    try:
         conn = sqlite3.connect(DATABASE_PATH)
         cursor = conn.cursor()
+
         cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             user_id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -107,8 +116,19 @@ def create_database():
         """)
 
         conn.commit()
-        conn.close()
-        print("Database Created Successfully")
+
+        logger.info("Database schema created successfully.")
+
+    except sqlite3.Error as e:
+        logger.exception("Failed to create database schema.")
+        raise DatabaseError(str(e)) from e
+
+    finally:
+        if conn:
+            conn.close()
+            logger.info("Database connection closed.")
+
+
 
 if __name__ == "__main__":
     create_database()

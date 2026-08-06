@@ -1,4 +1,9 @@
 import ast
+from config.logging_config import get_logger
+
+from src.exceptions.recommendation_exceptions import (
+    RecommendationError,
+)
 from src.engines.reality.reality_engine import RealityEngine
 from src.engines.verdict.verdict_engine import VerdictEngine
 
@@ -6,6 +11,8 @@ from src.models.career_identity import CareerIdentity
 from src.models.career_role import CareerRole
 
 from src.database.models import get_all_roles
+
+logger = get_logger(__name__)
 
 class RecommendationService:
     """
@@ -113,5 +120,22 @@ class RecommendationService:
         return roles
     
     def recommend(self, user: CareerIdentity):
-        roles = self.load_roles()
-        return self.evaluate_all_roles(user, roles)
+        """
+        Generates ranked career recommendations.
+        """
+
+        logger.info("Generating career recommendations...")
+
+        try:
+            roles = self.load_roles()
+            recommendations = self.evaluate_all_roles(user, roles)
+
+            logger.info(
+                f"Generated {len(recommendations)} career recommendations."
+            )
+
+            return recommendations
+
+        except Exception as e:
+            logger.exception("Recommendation generation failed.")
+            raise RecommendationError(str(e)) from e
