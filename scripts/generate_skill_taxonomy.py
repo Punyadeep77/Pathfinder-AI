@@ -1,11 +1,11 @@
 import pandas as pd
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from config.logging_config import get_logger
+from config.settings import SEED_DIR
 
-SEED_FOLDER = BASE_DIR / "data" / "seed"
+logger = get_logger(__name__)
 
-OUTPUT_FILE = SEED_FOLDER / "skill_taxonomy.csv"
+OUTPUT_FILE = SEED_DIR / "skill_taxonomy.csv"
 
 def create_skill_taxonomy():
 
@@ -908,7 +908,7 @@ def create_skill_taxonomy():
     "is_active": "Yes"
 },
     ]
-
+    logger.info("Generating skill taxonomy dataset...")
     df = pd.DataFrame(skills)
 
     df.to_csv(
@@ -916,10 +916,9 @@ def create_skill_taxonomy():
         index=False
     )
 
-    print(f"Successfully created {len(df)} skills.")
-    print(f"Saved to: {OUTPUT_FILE}")
+    logger.info(f"Generated {len(df)} skills.")
+    logger.info(f"Skill taxonomy saved to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":
     create_skill_taxonomy()
-    

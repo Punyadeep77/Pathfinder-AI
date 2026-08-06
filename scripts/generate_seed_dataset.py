@@ -1,9 +1,11 @@
 import pandas as pd
-from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+from config.logging_config import get_logger
+from config.settings import SEED_DIR
 
-OUTPUT_FILE = BASE_DIR / "data" / "seed" / "seed_roles.csv"
+logger = get_logger(__name__)
+
+OUTPUT_FILE = SEED_DIR / "seed_roles.csv"
 
 def create_seed_roles():
     roles = [
@@ -824,6 +826,8 @@ def create_seed_roles():
                 }
             ]
 
+    logger.info("Generating seed roles dataset...")
+
     df = pd.DataFrame(roles)
 
     df.to_csv(
@@ -831,10 +835,8 @@ def create_seed_roles():
         index=False
     )
 
-    print("=" * 60)
-    print(f"Total Roles : {len(df)}")
-    print(f"Dataset Saved : {OUTPUT_FILE}")
-    print("=" * 60)
+    logger.info(f"Generated {len(df)} career roles.")
+    logger.info(f"Seed dataset saved to: {OUTPUT_FILE}")
 
 
 if __name__ == "__main__":

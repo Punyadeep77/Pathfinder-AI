@@ -15,48 +15,49 @@ Create Database
 Import Clean Data into SQLite
 """
 
-from config.constants import (
+from config.settings import (
     SEED_ROLES_FILE,
     PROCESSED_ROLES_FILE,
 )
-
 from scripts.generate_seed_dataset import create_seed_roles
 from scripts.generate_skill_taxonomy import create_skill_taxonomy
 
 from src.utils.etl_pipeline import ETLPipeline
 from src.database.schema import create_database
-from src.database.loader import import_all
+from src.database.loader import DatabaseLoader
 
+from config.logging_config import get_logger
+logger = get_logger(__name__)
 
 def print_header():
-    print("=" * 60)
-    print("PATHFINDER AI - DATA PIPELINE")
-    print("=" * 60)
+   logger.info("=" * 60)
+   logger.info("PATHFINDER AI - DATA PIPELINE")
+   logger.info("=" * 60)
 
 
 def print_success():
-    print("\n" + "=" * 60)
-    print("PATHFINDER DATA PIPELINE COMPLETED SUCCESSFULLY")
-    print("=" * 60)
+    logger.info("\n" + "=" * 60)
+    logger.info("PATHFINDER DATA PIPELINE COMPLETED SUCCESSFULLY")
+    logger.info("=" * 60)
 
 
 def print_failure(error):
-    print("\n" + "=" * 60)
-    print("PATHFINDER DATA PIPELINE FAILED")
-    print("=" * 60)
-    print(f"Error: {error}")
+    logger.error("\n" + "=" * 60)
+    logger.error("PATHFINDER DATA PIPELINE FAILED")
+    logger.error("=" * 60)
+    logger.exception(f"Error: {error}")
 
 
 def generate_seed_data():
-    print("\n[1/5] Generating Seed Roles...")
+    logger.info("\n[1/5] Generating Seed Roles...")
     create_seed_roles()
 
-    print("\n[2/5] Generating Skill Taxonomy...")
+    logger.info("\n[2/5] Generating Skill Taxonomy...")
     create_skill_taxonomy()
 
 
 def run_etl():
-    print("\n[3/5] Running ETL Pipeline...")
+    logger.info("\n[3/5] Running ETL Pipeline...")
 
     pipeline = ETLPipeline(
         input_file=SEED_ROLES_FILE,
@@ -67,11 +68,13 @@ def run_etl():
 
 
 def initialize_database():
-    print("\n[4/5] Creating Database...")
+    logger.info("\n[4/5] Creating Database...")
     create_database()
 
-    print("\n[5/5] Importing Processed Dataset...")
-    import_all()
+    logger.info("[5/5] Importing Processed Dataset...")
+
+    loader = DatabaseLoader()
+    loader.import_all()
 
 
 def main():
