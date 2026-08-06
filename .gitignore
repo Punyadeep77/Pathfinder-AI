@@ -47,3 +47,29 @@ dist/
 # Jupyter
 # -----------------------------
 .ipynb_checkpoints/
+
+# --------------------------------
+# Pathfinder AI
+# --------------------------------
+
+# SQLite Database
+data/database/*.db
+
+# Processed datasets (generated)
+data/processed/
+
+# Raw scraped datasets
+data/raw/
+
+# IDE
+.idea/
+
+# Testing
+.pytest_cache/
+
+# Coverage
+.coverage
+htmlcov/
+
+# OS
+Thumbs.db

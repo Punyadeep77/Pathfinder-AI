@@ -18,6 +18,7 @@ class CareerVerdict:
     growth_score: int = 0
     automation_risk_score: int = 0
     average_salary_lpa: float = 0.0
+    final_score: float = 0.0
     verdict: str = ""
     strengths: List[str] = field(default_factory=list)
     limitations: List[str] = field(default_factory=list)

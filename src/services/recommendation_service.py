@@ -1,3 +1,4 @@
+import ast
 from src.engines.reality.reality_engine import RealityEngine
 from src.engines.verdict.verdict_engine import VerdictEngine
 
@@ -28,13 +29,44 @@ class RecommendationService:
     user: CareerIdentity,
     roles: list[CareerRole]):
         results = []
+
         for role in roles:
-            verdict = self.evaluate_role(user,role)
+            verdict = self.evaluate_role(user, role)
+            verdict.final_score = self.calculate_final_score(verdict)
             results.append(verdict)
 
-        results.sort(key=lambda verdict: verdict.skill_match,reverse=True)
+        results.sort(key=lambda verdict: verdict.final_score,reverse=True)
+        
         return results
     
+    def calculate_final_score(self, verdict):
+            score = 0.0
+
+            # Skill Match (40%)
+            score += verdict.skill_match * 0.40
+
+            # Market Demand (20%)
+            score += verdict.market_demand_score * 0.20
+
+            # Growth (15%)
+            score += verdict.growth_score * 0.15
+
+            # Timeline (10%)
+            if verdict.timeline_feasible:
+                score += 10
+
+            # Experience (5%)
+            if verdict.experience_match:
+                score += 5
+
+            # Competition (5%)
+            score += (100 - verdict.competition_score) * 0.05
+
+            # Automation Risk (5%)
+            score += (100 - verdict.automation_risk_score) * 0.05
+
+            return round(score, 2)
+
     def build_role(self, row):
         return CareerRole(
             role_id=row["role_id"],
@@ -61,13 +93,16 @@ class RecommendationService:
             networking_required=row["networking_required"],
             shift_type=row["shift_type"],
             remote_opportunity=row["remote_opportunity"],
-            required_skills=row["required_skills"].split("|"),
-            preferred_skills=row["preferred_skills"].split("|"),
-            recommended_certifications=row["recommended_certifications"].split("|"),
+            required_skills=(row["required_skills"] or "").split("|"),
+            preferred_skills=(row["preferred_skills"] or "").split("|"),
+            recommended_certifications=(row["recommended_certifications"] or "").split("|"),
             portfolio_required=row["portfolio_required"],
-            future_growth_roles=row["future_growth_roles"].split("|"),
-            role_characteristics=row["role_characteristics"].split("|")
+            future_growth_roles=(row["future_growth_roles"] or "").split("|"),
+            role_characteristics=(ast.literal_eval(row["role_characteristics"])
+                if row["role_characteristics"].strip().startswith("[")
+                else row["role_characteristics"].split("|")),
         )
+    
     def load_roles(self):
         rows = get_all_roles()
         roles = []

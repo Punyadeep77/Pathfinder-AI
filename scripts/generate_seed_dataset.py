@@ -314,7 +314,7 @@ def create_seed_roles():
 
                     "required_skills": "Python|Java|C++|Git|SQL",
                     "preferred_skills": "Docker|Linux",
-                    "recommended_certifications": "None",
+                    "recommended_certifications": "AWS Cloud Practitioner|Oracle Java SE",
                     "portfolio_required": "Yes",
                     "future_growth_roles": "Senior Software Engineer|Tech Lead|Engineering Manager",
                     "role_characteristics": "Software Development|Problem Solving|System Design|Coding|Team Collaboration",
@@ -348,7 +348,7 @@ def create_seed_roles():
 
                     "required_skills": "Python|SQL|REST API|Git",
                     "preferred_skills": "Docker|PostgreSQL|FastAPI",
-                    "recommended_certifications": "None",
+                    "recommended_certifications": "Oracle Java SE|AWS Cloud Practitioner",
                     "portfolio_required": "Yes",
                     "future_growth_roles": "Senior Backend Developer|Software Architect",
                     "role_characteristics": "API Development|Server-side Programming|Database Design|Scalable Systems|Microservices",
@@ -382,7 +382,7 @@ def create_seed_roles():
 
                     "required_skills": "JavaScript|Git",
                     "preferred_skills": "REST API",
-                    "recommended_certifications": "None",
+                    "recommended_certifications": "Meta Front-End Developer",
                     "portfolio_required": "Yes",
                     "future_growth_roles": "Senior Frontend Developer|UI Architect",
                     "role_characteristics": "UI Development|Responsive Design|JavaScript|User Experience|Web Interfaces",
@@ -416,7 +416,7 @@ def create_seed_roles():
 
                     "required_skills": "JavaScript|Python|SQL|REST API|Git",
                     "preferred_skills": "Docker|FastAPI",
-                    "recommended_certifications": "None",
+                    "recommended_certifications": "Meta Full-Stack Developer|AWS Cloud Practitioner",
                     "portfolio_required": "Yes",
                     "future_growth_roles": "Senior Full Stack Developer|Software Architect",
                     "role_characteristics": "Frontend|Backend|API Integration|Databases|System Development",
