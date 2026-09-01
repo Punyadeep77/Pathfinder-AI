@@ -1,66 +1,120 @@
-from src.engines.identity.identity_engine import IdentityEngine
+from src.context.context_engine import ContextEngine
 from src.services.recommendation_service import RecommendationService
 
 
 def main():
 
-    profile = {
-        "name": "Punyadeep",
-        "education": "B.Tech",
-        "branch": "Data Science",
-        "current_year": "3rd Year",
-        "cgpa": 8.0,
-        "experience_years": 0,
-        "timeline_months": 8,
-        "learning_hours_week": 20,
+    print("\n========== PATHFINDER AI ==========\n")
 
-        "skills": {
-            "Python": "Intermediate",
-            "SQL": "Intermediate",
-            "Pandas": "Intermediate",
-            "Excel": "Advanced",
-            "Power BI": "Beginner"
-        },
+    user_input = input(
+        "Tell me about yourself, your situation, "
+        "career goal, skills, and constraints:\n\n> "
+    )
 
-        "positive_preferences": [
-            "Hybrid"
-        ],
+    context_engine = ContextEngine()
 
-        "negative_preferences": [
-            "Night Shift"
-        ],
+    context = context_engine.understand(user_input)
 
-        "career_interests": [
-            "Data Science",
-            "Artificial Intelligence"
-        ]
-    }
+    # Ask only for missing required information.
+    while context.has_missing_constraints():
 
-    identity_engine = IdentityEngine()
-    user = identity_engine.build_identity(profile)
+        question = context_engine.get_clarification(context)
+
+        print(f"\nPathfinder: {question}")
+
+        answer = input("> ")
+
+        constraint = context.missing_required_constraints[0]
+
+        context = context_engine.resolve_missing_constraints(
+            context,
+            {
+                constraint: answer
+            }
+        )
+
+    user = context_engine.build_identity(context)
+
+    print(
+        "\nPathfinder: I have enough information. "
+        "Analyzing your profile...\n"
+    )
 
     recommendation_service = RecommendationService()
 
     recommendations = recommendation_service.recommend(user)
 
-    print("\n========== TOP CAREER RECOMMENDATIONS ==========\n")
+    print(
+        "\n========== TOP CAREER RECOMMENDATIONS ==========\n"
+    )
 
-    for index, verdict in enumerate(recommendations[:5], start=1):
+    for index, verdict in enumerate(
+        recommendations[:5],
+        start=1
+    ):
 
         print(f"{index}. {verdict.role_name}")
         print(f"Verdict : {verdict.verdict}")
-        print(f"Skill Match : {verdict.skill_match}%")
-        print(f"Final Score : {verdict.final_score}")
-        print(f"Average Salary : {verdict.average_salary_lpa} LPA")
+
+        print(
+            f"Skill Match : "
+            f"{verdict.skill_match}%"
+        )
+
+        print(
+            f"Career Interest Match : "
+            f"{verdict.career_interest_match}%"
+        )
+
+        print(
+            f"Timeline Match : "
+            f"{verdict.timeline_match_score}%"
+        )
+
+        print(
+            f"Timeline Gap : "
+            f"{verdict.timeline_gap_months} month(s)"
+        )
+
+        print(
+            f"Final Score : "
+            f"{verdict.final_score}"
+        )
+
+        print(
+            f"Average Salary : "
+            f"{verdict.average_salary_lpa} LPA"
+        )
 
         if verdict.missing_skills:
-            print("Missing Skills :", ", ".join(verdict.missing_skills))
+            print(
+                "Missing Skills :",
+                ", ".join(verdict.missing_skills)
+            )
+
+        if verdict.portfolio_required == "Yes":
+            print(
+                "Portfolio Required : Yes"
+            )
 
         print("Strengths :")
-        for item in verdict.strengths:
-            print("  •", item)
+
+        if verdict.strengths:
+            for item in verdict.strengths:
+                print("  •", item)
+        else:
+            print("  None")
+
+        print("Limitations :")
+
+        if verdict.limitations:
+            for item in verdict.limitations:
+                print("  •", item)
+        else:
+            print("  None")
 
         print("Risks :")
+
         if verdict.risks:
             for item in verdict.risks:
                 print("  •", item)

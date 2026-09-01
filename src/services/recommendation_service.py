@@ -47,32 +47,34 @@ class RecommendationService:
         return results
     
     def calculate_final_score(self, verdict):
-            score = 0.0
+        score = 0.0
 
-            # Skill Match (40%)
-            score += verdict.skill_match * 0.40
+        # Skill Match (35%)
+        score += verdict.skill_match * 0.35
 
-            # Market Demand (20%)
-            score += verdict.market_demand_score * 0.20
+        # Career Interest Alignment (15%)
+        score += verdict.career_interest_match * 0.15
 
-            # Growth (15%)
-            score += verdict.growth_score * 0.15
+        # Market Demand (15%)
+        score += verdict.market_demand_score * 0.15
 
-            # Timeline (10%)
-            if verdict.timeline_feasible:
-                score += 10
+        # Growth (10%)
+        score += verdict.growth_score * 0.10
 
-            # Experience (5%)
-            if verdict.experience_match:
-                score += 5
+        # Timeline Match (10%)
+        score += verdict.timeline_match_score * 0.10
 
-            # Competition (5%)
-            score += (100 - verdict.competition_score) * 0.05
+        # Experience (5%)
+        if verdict.experience_match:
+            score += 5
 
-            # Automation Risk (5%)
-            score += (100 - verdict.automation_risk_score) * 0.05
+        # Competition (5%)
+        score += (100 - verdict.competition_score) * 0.05
 
-            return round(score, 2)
+        # Automation Risk (5%)
+        score += (100 - verdict.automation_risk_score) * 0.05
+
+        return round(score, 2)
 
     def build_role(self, row):
         return CareerRole(

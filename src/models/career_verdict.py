@@ -11,15 +11,23 @@ class CareerVerdict:
     role_name: str
     skill_match: float
     missing_skills: List[str] = field(default_factory=list)
+
     timeline_feasible: bool = False
+    timeline_gap_months: int = 0
+    timeline_match_score: float = 100.0
     experience_match: bool = False
+
     market_demand_score: int = 0
     competition_score: int = 0
     growth_score: int = 0
     automation_risk_score: int = 0
+    career_interest_match: float = 0.0
     average_salary_lpa: float = 0.0
     final_score: float = 0.0
+
     verdict: str = ""
+    portfolio_required: str = ""
+
     strengths: List[str] = field(default_factory=list)
     limitations: List[str] = field(default_factory=list)
     reasons: List[str] = field(default_factory=list)
