@@ -43,13 +43,22 @@ def main():
     recommendation_service = RecommendationService()
 
     recommendations = recommendation_service.recommend(user)
-
-    print(
-        "\n========== TOP CAREER RECOMMENDATIONS ==========\n"
+    primary_recommendations, exploration_options = (
+        recommendation_service.split_primary_and_exploration(recommendations)
     )
 
+    print(
+        "\n========== PRIMARY CAREER RECOMMENDATIONS ==========\n"
+    )
+
+    if not primary_recommendations:
+        print(
+            "No role is currently recommended without important trade-offs. "
+            "Use the Streamlit dashboard to explore all evaluated options.\n"
+        )
+
     for index, verdict in enumerate(
-        recommendations[:5],
+        primary_recommendations[:5],
         start=1
     ):
 
@@ -74,6 +83,10 @@ def main():
         print(
             f"Timeline Gap : "
             f"{verdict.timeline_gap_months} month(s)"
+        )
+
+        print(
+            f"Experience Gap : {verdict.experience_gap_years} year(s)"
         )
 
         print(

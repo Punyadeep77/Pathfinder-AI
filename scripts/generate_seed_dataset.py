@@ -7,6 +7,44 @@ logger = get_logger(__name__)
 
 OUTPUT_FILE = SEED_DIR / "seed_roles.csv"
 
+
+def mechanical_role(role_id, role_name, domain, description, salary, demand,
+                    preparation_months, required_skills, preferred_skills,
+                    future_growth_roles, characteristics):
+    """Build an entry-level mechanical role from normalized market evidence."""
+    return {
+        "role_id": role_id,
+        "role_name": role_name,
+        "industry": "Manufacturing and Engineering",
+        "domain": domain,
+        "role_description": description,
+        "entry_level": "Yes",
+        "minimum_experience_years": 0,
+        "average_salary_lpa": salary,
+        "market_demand_score": demand,
+        "competition_score": 62,
+        "growth_score": 68,
+        "automation_risk_score": 35,
+        "preparation_months": preparation_months,
+        "coding_intensity": 1,
+        "mathematics_intensity": 3,
+        "communication_intensity": 3,
+        "work_life_balance": 3,
+        "remote_opportunity": "Low",
+        "work_mode": "On-site",
+        "travel_required": "Low",
+        "client_interaction": "Low",
+        "leadership_required": "No",
+        "networking_required": "Low",
+        "shift_type": "Day",
+        "required_skills": required_skills,
+        "preferred_skills": preferred_skills,
+        "recommended_certifications": "NPTEL|AutoCAD Certification",
+        "portfolio_required": "No",
+        "future_growth_roles": future_growth_roles,
+        "role_characteristics": characteristics,
+    }
+
 def create_seed_roles():
     roles = [
                 {
@@ -825,6 +863,51 @@ def create_seed_roles():
                     "role_characteristics": "Data Architecture|Data Governance|Data Modeling|Cloud Data|Enterprise Design",
                 }
             ]
+
+    # Entry-level salary bands and skills are derived from the supplied Indian
+    # job-market workbooks and job listings; see docs/MARKET_DATA.md.
+    roles.extend([
+        mechanical_role(
+            25, "Mechanical Design Engineer", "Mechanical Engineering",
+            "Creates production-ready mechanical drawings and component designs.",
+            2.9, 68, 5, "AutoCAD|SolidWorks|Engineering Drawing",
+            "Creo|GD&T|Manufacturing Processes",
+            "Senior Design Engineer|Product Design Engineer",
+            ["Mechanical Design", "CAD", "On-site Work", "Low Travel"],
+        ),
+        mechanical_role(
+            26, "Production Engineer", "Manufacturing Engineering",
+            "Supports safe, efficient shop-floor production and process improvement.",
+            2.4, 72, 4, "Manufacturing Processes|Quality Control|Engineering Drawing",
+            "AutoCAD|Lean Manufacturing|5S",
+            "Senior Production Engineer|Manufacturing Manager",
+            ["Manufacturing", "Shop-floor Work", "Process Improvement", "On-site Work"],
+        ),
+        mechanical_role(
+            27, "Quality Engineer", "Quality Engineering",
+            "Inspects manufacturing output and improves process and product quality.",
+            2.5, 74, 4, "Quality Control|Engineering Drawing|Measurement Tools",
+            "Root Cause Analysis|ISO 9001|Six Sigma",
+            "Senior Quality Engineer|Quality Manager",
+            ["Quality Inspection", "Manufacturing", "Documentation", "On-site Work"],
+        ),
+        mechanical_role(
+            28, "Maintenance Engineer", "Maintenance Engineering",
+            "Maintains plant equipment through preventive and breakdown maintenance.",
+            3.2, 70, 5, "Mechanical Maintenance|Preventive Maintenance|Engineering Drawing",
+            "Hydraulics|Pneumatics|PLC",
+            "Senior Maintenance Engineer|Maintenance Manager",
+            ["Plant Maintenance", "Manufacturing", "On-site Work", "Low Travel"],
+        ),
+        mechanical_role(
+            29, "Graduate Engineer Trainee (Mechanical)", "Mechanical Engineering",
+            "Builds hands-on manufacturing, quality, and maintenance experience under supervision.",
+            2.5, 76, 3, "Engineering Drawing|Manufacturing Processes|Communication",
+            "AutoCAD|Quality Control|Excel",
+            "Production Engineer|Quality Engineer|Mechanical Design Engineer",
+            ["Graduate Training", "Manufacturing", "On-site Work", "Low Travel"],
+        ),
+    ])
 
     logger.info("Generating seed roles dataset...")
 

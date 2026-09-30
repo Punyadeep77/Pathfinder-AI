@@ -90,3 +90,13 @@ skill_id,skill_name,category,subcategory,description,importance_level,is_active
 89,Decision Making,Professional Skills,Thinking,Evidence-based decision making,Core,Yes
 90,Research Skills,Professional Skills,Research,Finding and evaluating information,Core,Yes
 91,Networking,Infrastructure,Computer Networks,Networking fundamentals and protocols,Important,Yes
+92,AutoCAD,Mechanical Engineering,CAD,2D mechanical drafting and design,Core,Yes
+93,SolidWorks,Mechanical Engineering,CAD,3D mechanical design and modelling,Core,Yes
+94,Engineering Drawing,Mechanical Engineering,Design,Reading and creating technical engineering drawings,Core,Yes
+95,Manufacturing Processes,Mechanical Engineering,Manufacturing,"Fundamentals of machining, fabrication, and production",Core,Yes
+96,Quality Control,Mechanical Engineering,Quality,Inspection and quality assurance fundamentals,Core,Yes
+97,Measurement Tools,Mechanical Engineering,Quality,"Use of vernier calipers, micrometers, and gauges",Important,Yes
+98,Mechanical Maintenance,Mechanical Engineering,Maintenance,Mechanical equipment maintenance fundamentals,Core,Yes
+99,Preventive Maintenance,Mechanical Engineering,Maintenance,Planned maintenance and reliability practices,Important,Yes
+100,Lean Manufacturing,Mechanical Engineering,Manufacturing,Waste reduction and continuous improvement,Important,Yes
+101,GD&T,Mechanical Engineering,Design,Geometric dimensioning and tolerancing,Important,Yes

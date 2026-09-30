@@ -908,6 +908,19 @@ def create_skill_taxonomy():
     "is_active": "Yes"
 },
     ]
+
+    skills.extend([
+        {"skill_id": 92, "skill_name": "AutoCAD", "category": "Mechanical Engineering", "subcategory": "CAD", "description": "2D mechanical drafting and design", "importance_level": "Core", "is_active": "Yes"},
+        {"skill_id": 93, "skill_name": "SolidWorks", "category": "Mechanical Engineering", "subcategory": "CAD", "description": "3D mechanical design and modelling", "importance_level": "Core", "is_active": "Yes"},
+        {"skill_id": 94, "skill_name": "Engineering Drawing", "category": "Mechanical Engineering", "subcategory": "Design", "description": "Reading and creating technical engineering drawings", "importance_level": "Core", "is_active": "Yes"},
+        {"skill_id": 95, "skill_name": "Manufacturing Processes", "category": "Mechanical Engineering", "subcategory": "Manufacturing", "description": "Fundamentals of machining, fabrication, and production", "importance_level": "Core", "is_active": "Yes"},
+        {"skill_id": 96, "skill_name": "Quality Control", "category": "Mechanical Engineering", "subcategory": "Quality", "description": "Inspection and quality assurance fundamentals", "importance_level": "Core", "is_active": "Yes"},
+        {"skill_id": 97, "skill_name": "Measurement Tools", "category": "Mechanical Engineering", "subcategory": "Quality", "description": "Use of vernier calipers, micrometers, and gauges", "importance_level": "Important", "is_active": "Yes"},
+        {"skill_id": 98, "skill_name": "Mechanical Maintenance", "category": "Mechanical Engineering", "subcategory": "Maintenance", "description": "Mechanical equipment maintenance fundamentals", "importance_level": "Core", "is_active": "Yes"},
+        {"skill_id": 99, "skill_name": "Preventive Maintenance", "category": "Mechanical Engineering", "subcategory": "Maintenance", "description": "Planned maintenance and reliability practices", "importance_level": "Important", "is_active": "Yes"},
+        {"skill_id": 100, "skill_name": "Lean Manufacturing", "category": "Mechanical Engineering", "subcategory": "Manufacturing", "description": "Waste reduction and continuous improvement", "importance_level": "Important", "is_active": "Yes"},
+        {"skill_id": 101, "skill_name": "GD&T", "category": "Mechanical Engineering", "subcategory": "Design", "description": "Geometric dimensioning and tolerancing", "importance_level": "Important", "is_active": "Yes"},
+    ])
     logger.info("Generating skill taxonomy dataset...")
     df = pd.DataFrame(skills)
 

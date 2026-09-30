@@ -1,122 +1,37 @@
-
----
-
-# 4. `docs/CURRENT_STATE.md`
-
-This one needs to be different from the others.
-
-**Do not pretend this is a permanent specification.** It is a live project status file.
-
-Use this initial version:
-
-```markdown
 # Pathfinder AI — Current State
 
-> This file describes the current implementation state.
-> Update it when meaningful project work is completed.
-> Do not use it as a replacement for source code inspection.
+> This file records the current implementation state. Source code remains the
+> authority for runtime behavior.
 
-Last major project direction update: September 2026.
+Last updated: October 2026.
 
----
+## Implemented V2 flow
 
-# 1. Current Product Direction
+- Natural-language-first Streamlit dashboard.
+- Rule-based extraction of profile, skills, career interests, and meaningful
+  negative preferences.
+- User-type detection and one-at-a-time targeted clarification.
+- Type-safe conversion of clarification answers before decision evaluation.
+- SQLite-backed evaluation of the current seed career dataset.
+- Explainable verdict evidence: skills, interest alignment, timeline,
+  experience gap, market demand, growth, salary, limitations, and risks.
+- Fundamental conflicts such as meaningful networking, client-facing work,
+  travel, non-day shifts, and heavy coding are excluded from primary
+  recommendations.
+- Separate Primary Recommendations, Explore More Options, and evidence-only
+  follow-up discussion views.
 
-Pathfinder is currently being developed toward **Version 2**.
+## Data and decision scope
 
-Current V2 direction:
+The repository currently contains 29 seed roles and a 101-skill taxonomy. It
+now includes five entry-level mechanical/manufacturing roles alongside the
+technology roles. Broader multi-domain coverage remains future work.
 
-- natural-language-first
-- multi-domain
-- local-first
-- evidence-driven
-- decision-intelligence oriented
-- personalized dashboard
-- market-data pipeline
-- analytics / ML where justified
-- LLM explanation/discussion layer
+The current discussion feature is local and evidence-only. It preserves the
+frozen decision that an LLM must not make or override career verdicts. An LLM
+provider integration remains future work.
 
-The old form-based base-level specification is superseded.
+## Verification
 
----
-
-# 2. Repository
-
-Repository:
-
-`Pathfinder-AI`
-
-GitHub:
-
-`https://github.com/Punyadeep77/Pathfinder-AI.git`
-
-Primary branch:
-
-`main`
-
-The repository is the source of truth for implementation.
-
----
-
-# 3. Known Base-Level Work
-
-The project has an existing base implementation and data pipeline.
-
-Known completed/implemented areas include:
-
-- project structure
-- seed-data generation
-- seed career-role dataset
-- skill taxonomy
-- ETL pipeline
-- dataset validation
-- preprocessing / transformation
-- SQLite database setup
-- database loading
-- configuration
-- logging
-- Career Identity logic
-- Reality logic
-- Career Verdict logic
-- supporting models/services
-- tests
-
-Historical project work generated:
-
-- 24 representative career roles
-- 91 skills
-
-The exact current implementation must always be verified against the repository before modifying code.
-
----
-
-# 4. Existing Decision Architecture
-
-The established conceptual decision flow is:
-
-```text
-Natural User Input
-        ↓
-Input Understanding
-        ↓
-User-Type Detection
-        ↓
-Profile / Constraint Extraction
-        ↓
-Missing Information Check
-        ↓
-Targeted Clarification
-        ↓
-Career Identity
-        ↓
-Market Reality
-        ↓
-Career Evaluation / Verdict
-        ↓
-Evidence
-        ↓
-Dashboard
-        ↓
-Explore More Options
-        ↓
-LLM Discussion
+`python -m pytest -q` passes 9 tests, including natural-language constraint,
+clarification type-conversion, and primary-versus-exploration regression tests.
