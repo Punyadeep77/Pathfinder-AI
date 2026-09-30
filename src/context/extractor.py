@@ -152,22 +152,29 @@ class ContextExtractor:
             "positive_preferences": [],
             "negative_preferences": [],
             "career_interests": [],
+            "existing_offer_lpa": None,
+            "existing_offer_label": None,
             "user_type": None,
             "confidence": 0.0,
         }
 
         self._extract_education(text, information)
+        self._extract_branch(text, information)
         self._extract_year(text, information)
         self._extract_cgpa(text, information)
         self._extract_experience(text, information)
         self._extract_timeline(text, information)
         self._extract_learning_hours(text, information)
+        self._extract_existing_offer(text, information)
         self._extract_skills(text, information)
         self._extract_situation_and_goal(text, information)
         
         self._detect_user_type(text, information)
         self._extract_preferences(text, information)
         self._extract_career_interests(text, information)
+
+        if str(information["branch"]).lower() == "mechanical":
+            information["career_interests"].append("Mechanical Engineering")
 
         information["confidence"] = self._calculate_confidence(
             information
@@ -198,6 +205,18 @@ class ContextExtractor:
                 information["education"] = match.group(1)
                 break
 
+    def _extract_branch(self, text, information):
+        patterns = [
+            r"(?:branch|speciali[sz]ation)\s*(?:is|:)?\s*(Mechanical(?: Engineering)?|Computer Science(?: and Engineering)?|Data Science|Civil(?: Engineering)?|Electrical(?: Engineering)?|Electronics(?: and Communication)?|Information Technology)\b",
+            r"(?:B\.?Tech|B\.?E\.?|BE)\s+(?:in\s+)?(Mechanical(?: Engineering)?|Computer Science(?: and Engineering)?|Data Science|Civil(?: Engineering)?|Electrical(?: Engineering)?|Electronics(?: and Communication)?|Information Technology)\b",
+        ]
+
+        for pattern in patterns:
+            match = re.search(pattern, text, re.IGNORECASE)
+            if match:
+                information["branch"] = match.group(1).strip(" .,")
+                return
+
     def _extract_year(self, text, information):
         match = re.search(
             r"\b(1st|2nd|3rd|4th)\s*(?:year|yr)\b",
@@ -207,6 +226,8 @@ class ContextExtractor:
 
         if match:
             information["current_year"] = match.group(1) + " Year"
+        elif re.search(r"\b(final year|vii\s*(?:sem|semester)|viii\s*(?:sem|semester))\b", text, re.IGNORECASE):
+            information["current_year"] = "Final Year"
 
     def _extract_cgpa(self, text, information):
         match = re.search(
@@ -230,14 +251,13 @@ class ContextExtractor:
             information["experience_years"] = float(match.group(1))
 
     def _extract_timeline(self, text, information):
-        match = re.search(
-            r"(\d+)\s*(months?|mos?)",
-            text,
-            re.IGNORECASE,
-        )
-
-        if match:
-            information["timeline_months"] = int(match.group(1))
+        matches = re.findall(r"(\d+)\s*(?:-|to)?\s*(\d+)?\s*(months?|mos?)", text, re.IGNORECASE)
+        if matches:
+            # A user may have separate campus and off-campus deadlines. Use
+            # the longest stated preparation runway for role feasibility.
+            information["timeline_months"] = max(
+                int(end or start) for start, end, _ in matches
+            )
 
     def _extract_learning_hours(self, text, information):
         match = re.search(
@@ -248,6 +268,17 @@ class ContextExtractor:
 
         if match:
             information["learning_hours_week"] = int(match.group(1))
+
+    def _extract_existing_offer(self, text, information):
+        match = re.search(
+            r"(?:(TCS\s+Ninja)\s+)?offer\s+(?:of|at)\s*"
+            r"(\d+(?:\.\d+)?)\s*(?:lpa|lakh(?:s)?\s+per\s+annum)",
+            text,
+            re.IGNORECASE,
+        )
+        if match:
+            information["existing_offer_lpa"] = float(match.group(2))
+            information["existing_offer_label"] = match.group(1) or "Current offer"
 
     def _detect_user_type(self, text, information):
         """
@@ -350,35 +381,17 @@ class ContextExtractor:
     def _extract_preferences(self, text, information):
         lowered = text.lower()
 
-        negative_patterns = [
-            "don't want",
-            "do not want",
-            "not interested in",
-            "avoid",
-            "hate",
-            "don't like",
-        ]
+        negative_patterns = {
+            "no_networking": ["no networking", "avoid networking", "don't want networking", "do not want networking", "heavy networking"],
+            "no_client_facing": ["no client-facing", "no client facing", "avoid client-facing", "avoid client facing"],
+            "no_travel": ["no travel", "avoid travel", "don't want to travel", "do not want to travel", "frequent travel"],
+            "no_night_shifts": ["no night shift", "no night shifts", "avoid night shifts"],
+            "no_heavy_coding": ["no heavy coding", "avoid heavy coding", "don't want coding", "do not want coding"],
+        }
 
-        positive_patterns = [
-            "prefer",
-            "interested in",
-            "want a career in",
-            "looking for a career in",
-        ]
-
-        for phrase in negative_patterns:
-            if phrase in lowered:
-                information["negative_preferences"].append(
-                    text[lowered.index(phrase):]
-                )
-                break
-
-        # for phrase in positive_patterns:
-        #     if phrase in lowered:
-        #         information["career_interests"].append(
-        #             text[lowered.index(phrase):]
-        #         )
-        #         break
+        for preference, phrases in negative_patterns.items():
+            if any(phrase in lowered for phrase in phrases):
+                information["negative_preferences"].append(preference)
 
     def _calculate_confidence(self, information):
         fields = [

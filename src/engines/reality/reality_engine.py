@@ -81,10 +81,15 @@ class RealityEngine:
         return user.timeline_months >= role.preparation_months
 
 
-    def experience_match(self,
-    user: CareerIdentity,
-    role: CareerRole) -> bool:
-        return (user.experience_years >= role.minimum_experience_years)
+    def experience_gap_years(self, user: CareerIdentity, role: CareerRole) -> float:
+        return round(
+            max(0.0, role.minimum_experience_years - user.experience_years),
+            1
+        )
+
+
+    def experience_match(self, user: CareerIdentity, role: CareerRole) -> bool:
+        return self.experience_gap_years(user, role) == 0.0
     
 
     def market_demand(self, role: CareerRole) -> int:
@@ -150,13 +155,26 @@ class RealityEngine:
 
         return 0.0
 
-    def negative_preference_conflict(self,
-    user: CareerIdentity,
-    role: CareerRole) -> bool:
+    def negative_preference_conflicts(self, user: CareerIdentity, role: CareerRole) -> list[str]:
+        """Return fundamental user/role conflicts, not small score penalties."""
+        conflicts = []
+        high_or_medium = {"medium", "high", "yes"}
+
         for preference in user.negative_preferences:
-            if role.has_characteristic(preference):
-                return True
-        return False
+            if preference == "no_networking" and role.networking_required.lower() in high_or_medium:
+                conflicts.append("Requires meaningful networking")
+            elif preference == "no_client_facing" and role.client_interaction.lower() in high_or_medium:
+                conflicts.append("Requires client-facing work")
+            elif preference == "no_travel" and role.travel_required.lower() in high_or_medium:
+                conflicts.append("Requires travel")
+            elif preference == "no_night_shifts" and role.shift_type.lower() != "day":
+                conflicts.append("May require non-day shifts")
+            elif preference == "no_heavy_coding" and role.coding_intensity >= 4:
+                conflicts.append("Requires heavy coding")
+            elif role.has_characteristic(preference):
+                conflicts.append(f"Conflicts with preference: {preference}")
+
+        return conflicts
 
 
     def evaluate(self,
@@ -169,6 +187,7 @@ class RealityEngine:
         timeline_gap = self.timeline_gap_months(user, role)
         timeline_score = self.timeline_match_score(user, role)
         experience = self.experience_match(user,role)
+        experience_gap = self.experience_gap_years(user, role)
         market_demand = self.market_demand(role)
         competition = self.competition_level(role)
         growth = self.growth_potential(role)
@@ -176,7 +195,7 @@ class RealityEngine:
         salary = self.salary_range(role)
         portfolio = self.portfolio_required(role)
         interest_match = self.career_interest_match(user,role)
-        negative_conflict = self.negative_preference_conflict(user, role)
+        negative_conflicts = self.negative_preference_conflicts(user, role)
 
         return {
             "skill_match": skill_match,
@@ -185,6 +204,7 @@ class RealityEngine:
             "timeline_gap_months": timeline_gap,
             "timeline_match_score": timeline_score,
             "experience_match": experience,
+            "experience_gap_years": experience_gap,
             "market_demand_score": market_demand,
             "competition_score": competition,
             "growth_score": growth,
@@ -192,7 +212,7 @@ class RealityEngine:
             "average_salary_lpa": salary,
             "portfolio_required": portfolio,
             "career_interest_match": interest_match,
-            "negative_preference_conflict": negative_conflict
+            "negative_preference_conflict": bool(negative_conflicts),
+            "negative_preference_conflicts": negative_conflicts,
         }
             
-

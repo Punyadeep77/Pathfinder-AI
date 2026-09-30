@@ -15,6 +15,7 @@ class VerdictEngine:
         timeline_gap_months = evidence["timeline_gap_months"]
         timeline_match_score = evidence["timeline_match_score"]
         experience_match = evidence["experience_match"]
+        experience_gap_years = evidence["experience_gap_years"]
         market_demand_score = evidence["market_demand_score"]
         competition_score = evidence["competition_score"]
         growth_score = evidence["growth_score"]
@@ -25,6 +26,9 @@ class VerdictEngine:
         negative_preference_conflict = evidence[
             "negative_preference_conflict"
         ]
+        negative_preference_conflicts = evidence.get(
+            "negative_preference_conflicts", []
+        )
 
         strengths = []
         limitations = []
@@ -97,7 +101,7 @@ class VerdictEngine:
 
         if not experience_match:
             limitations.append(
-                "Experience requirement not satisfied."
+                f"Experience gap: {experience_gap_years} year(s)."
             )
 
         # -------------------------
@@ -115,9 +119,7 @@ class VerdictEngine:
             )
 
         if negative_preference_conflict:
-            risks.append(
-                "Conflicts with your negative preferences."
-            )
+            risks.extend(negative_preference_conflicts)
 
         # -------------------------
         # REASONS
@@ -160,16 +162,10 @@ class VerdictEngine:
         ):
             verdict = "Highly Recommended"
 
-        elif (
-            skill_match >= 60
-            or career_interest_match >= 80
-        ):
+        elif skill_match >= 60 and timeline_feasible and experience_match:
             verdict = "Recommended"
 
-        elif (
-            skill_match >= 40
-            or career_interest_match >= 50
-        ):
+        elif skill_match >= 40 or career_interest_match >= 50:
             verdict = "Neutral"
 
         else:
@@ -183,6 +179,7 @@ class VerdictEngine:
             timeline_gap_months=timeline_gap_months,
             timeline_match_score=timeline_match_score,
             experience_match=experience_match,
+            experience_gap_years=experience_gap_years,
             market_demand_score=market_demand_score,
             competition_score=competition_score,
             growth_score=growth_score,

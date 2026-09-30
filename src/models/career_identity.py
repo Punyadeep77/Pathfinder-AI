@@ -41,3 +41,6 @@ class CareerIdentity:
 
     def get_skill_level(self, skill_name: str) -> str | None:
         return self.skills.get(skill_name)
+
+    def experience_gap_years(self, role) -> float:
+        return max(0.0, role.minimum_experience_years - self.experience_years)

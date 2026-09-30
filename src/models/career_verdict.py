@@ -16,7 +16,7 @@ class CareerVerdict:
     timeline_gap_months: int = 0
     timeline_match_score: float = 100.0
     experience_match: bool = False
-
+    experience_gap_years: float = 0.0
     market_demand_score: int = 0
     competition_score: int = 0
     growth_score: int = 0

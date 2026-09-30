@@ -209,7 +209,7 @@ class ContextEngine:
     ) -> UserContext:
 
         context.extracted_information.update(
-            additional_information
+            self._normalize_additional_information(additional_information)
         )
 
         return self.build_context(
@@ -219,6 +219,39 @@ class ContextEngine:
             situation=context.situation,
             goal=context.goal,
         )
+
+    def _normalize_additional_information(self, information: dict) -> dict:
+        """Convert one-answer clarification responses into model-safe values."""
+        normalized = dict(information)
+        numeric_fields = {
+            "experience_years": float,
+            "timeline_months": int,
+            "learning_hours_week": int,
+            "cgpa": float,
+        }
+
+        for field, converter in numeric_fields.items():
+            if field in normalized and isinstance(normalized[field], str):
+                try:
+                    normalized[field] = converter(normalized[field].strip())
+                except ValueError:
+                    normalized[field] = ""
+
+        if "skills" in normalized and isinstance(normalized["skills"], str):
+            normalized["skills"] = {
+                skill.strip(): "Unknown"
+                for skill in normalized["skills"].split(",")
+                if skill.strip()
+            }
+
+        if "career_interests" in normalized and isinstance(normalized["career_interests"], str):
+            normalized["career_interests"] = [
+                interest.strip()
+                for interest in normalized["career_interests"].split(",")
+                if interest.strip()
+            ]
+
+        return normalized
 
     def get_clarification(self, context: UserContext) -> str | None:
         """

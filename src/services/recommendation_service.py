@@ -40,11 +40,29 @@ class RecommendationService:
         for role in roles:
             verdict = self.evaluate_role(user, role)
             verdict.final_score = self.calculate_final_score(verdict)
+            if verdict.verdict == "Not Recommended Currently" and any(
+                "Requires" in risk or "Conflicts with preference" in risk
+                for risk in verdict.risks
+            ):
+                verdict.final_score = 0.0
             results.append(verdict)
 
         results.sort(key=lambda verdict: verdict.final_score,reverse=True)
         
         return results
+
+    @staticmethod
+    def split_primary_and_exploration(recommendations):
+        """Keep decision-system recommendations distinct from exploration."""
+        primary = [
+            verdict for verdict in recommendations
+            if verdict.is_recommended()
+        ]
+        exploration = [
+            verdict for verdict in recommendations
+            if not verdict.is_recommended()
+        ]
+        return primary, exploration
     
     def calculate_final_score(self, verdict):
         score = 0.0
